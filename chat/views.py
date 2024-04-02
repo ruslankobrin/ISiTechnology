@@ -24,8 +24,8 @@ class ThreadCreateListView(generics.ListCreateAPIView):
     queryset = Thread.objects.all()
     serializer_class = ThreadSerializer
     pagination_class = LimitOffsetPagination
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         participants = serializer.validated_data.get("participants")
@@ -95,9 +95,10 @@ class UnreadMessageCountView(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         user_id = self.kwargs.get("user_id")
+        print(user_id)
         unread_count = Message.objects.filter(
             thread__participants=user_id, is_read=False
-        ).count()
+        ).exclude(sender=user_id).count()
         return Response({"unread_count": unread_count}, status=status.HTTP_200_OK)
 
 
