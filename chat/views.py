@@ -1,4 +1,5 @@
 from rest_framework import generics, serializers, status
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 
 from .models import Thread, Message
@@ -8,6 +9,7 @@ from .serializers import ThreadSerializer, MessageSerializer
 class ThreadCreateListView(generics.ListCreateAPIView):
     queryset = Thread.objects.all()
     serializer_class = ThreadSerializer
+    pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
         participants = serializer.validated_data.get("participants")
@@ -27,6 +29,7 @@ class ThreadRetrieveDeleteView(generics.RetrieveDestroyAPIView):
 class MessageCreateListView(generics.ListCreateAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
         sender = serializer.validated_data.get("sender")
@@ -74,6 +77,7 @@ class UnreadMessageCountView(generics.GenericAPIView):
 
 class ThreadListAPIView(generics.ListAPIView):
     serializer_class = ThreadSerializer
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         user_id = self.kwargs["user_id"]
@@ -82,6 +86,7 @@ class ThreadListAPIView(generics.ListAPIView):
 
 class MessageListByThreadAPIView(generics.ListAPIView):
     serializer_class = MessageSerializer
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         thread_id = self.kwargs["thread_id"]
