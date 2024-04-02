@@ -30,4 +30,5 @@ urlpatterns = [
         UnreadMessageCountView.as_view(),
         name="unread_message_count",
     ),
+    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
 ]
