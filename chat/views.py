@@ -15,7 +15,7 @@ class ThreadCreateListView(generics.ListCreateAPIView):
         participants = serializer.validated_data.get("participants")
         if len(participants) > 2:
             raise serializers.ValidationError(
-                "A thread can't have more than 2 participants"
+                detail="A thread can't have more than 2 participants",
             )
         serializer.save()
 
@@ -37,7 +37,7 @@ class MessageCreateListView(generics.ListCreateAPIView):
 
         if not Thread.objects.filter(id=thread.id, participants=sender).exists():
             raise serializers.ValidationError(
-                "You are not this participant in this thread"
+                detail="You are not this participant in this thread"
             )
         serializer.save()
 
@@ -68,9 +68,9 @@ class UnreadMessageCountView(generics.GenericAPIView):
     serializer_class = MessageSerializer
 
     def get(self, request, *args, **kwargs):
-        user = self.kwargs.get("user")
+        user_id = self.kwargs.get("user_id")
         unread_count = Message.objects.filter(
-            thread__participants=user, is_read=False
+            thread__participants=user_id, is_read=False
         ).count()
         return Response({"unread_count": unread_count}, status=status.HTTP_200_OK)
 

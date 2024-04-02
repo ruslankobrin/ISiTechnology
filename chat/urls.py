@@ -26,7 +26,7 @@ urlpatterns = [
         name="message_mark_as_read",
     ),
     path(
-        "unread/<str:user>/",
+        "unread/<int:user_id>/",
         UnreadMessageCountView.as_view(),
         name="unread_message_count",
     ),
