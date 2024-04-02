@@ -30,10 +30,12 @@ class MessageCreateListView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         sender = serializer.validated_data.get("sender")
-        thread = serializer.validated_data.get('thread')
+        thread = serializer.validated_data.get("thread")
 
         if not Thread.objects.filter(id=thread.id, participants=sender).exists():
-            raise serializers.ValidationError("You are not this participant in this thread")
+            raise serializers.ValidationError(
+                "You are not this participant in this thread"
+            )
         serializer.save()
 
 
@@ -74,7 +76,7 @@ class ThreadListAPIView(generics.ListAPIView):
     serializer_class = ThreadSerializer
 
     def get_queryset(self):
-        user_id = self.kwargs['user_id']
+        user_id = self.kwargs["user_id"]
         return Thread.objects.filter(participants__id=user_id)
 
 
@@ -82,5 +84,5 @@ class MessageListByThreadAPIView(generics.ListAPIView):
     serializer_class = MessageSerializer
 
     def get_queryset(self):
-        thread_id = self.kwargs['thread_id']
+        thread_id = self.kwargs["thread_id"]
         return Message.objects.filter(thread_id=thread_id)
