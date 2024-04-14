@@ -34,10 +34,10 @@ This Django application provides REST endpoints for managing threads and message
 
     - To create a thread: `POST /threads/`
     - To remove a thread: `DELETE /threads/<thread_id>/`
-    - To retrieve a list of threads for a user: `GET /threads_by_user/<user_id>`
+    - To retrieve a list of threads for a user: `GET /threads_by_user/<user_id>/`
     - To create a message: `POST /messages/`
     - To mark a message as read: `PUT /messages/<message_id>/read/`
-    - To retrieve the number of unread messages for a user: `GET /unread/<user_id>`
+    - To retrieve the number of unread messages for a user: `GET /unread/<user_id>/`
     - To obtain JWT tokens for user authentication: `POST /token/`
 
 3. You can use tools like URL or Postman to interact with the API endpoints.
