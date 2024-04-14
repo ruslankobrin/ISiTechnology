@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import *
+
+from chat.views import ThreadCreateListView, ThreadListAPIView, ThreadRetrieveDeleteView, MessageCreateListView, \
+    MessageRetrieveView, MessageListByThreadAPIView, MessageMarkAsReadView, UnreadMessageCountView
 
 urlpatterns = [
     path("threads/", ThreadCreateListView.as_view(), name="thread_create_list"),
